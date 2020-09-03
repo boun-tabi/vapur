@@ -29,17 +29,18 @@
 
 
 
-  <form action="/search/results" method="post">
-    <div class="input-group">
+  <form action="/search" method="post" id="searchform">
+    <div class="input-group" style="margin:auto; width:50%;">
+      <input type="text" id="searchinput" class="form-control input-lg" name="input" placeholder="E.g. Remdesivir" autofocus style="border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;">
       <div class="input-group-btn">
         <button class="btn btn-primary btn-lg" type="submit" style="display: inline-flex;">
           <i class="material-icons md-48" style="text-align:center;">search</i>
         </button>
       </div>
-      <input type="text" class="form-control input-lg" name="input" placeholder="E.g. Remdesivir" autofocus style="border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;">
     </div>
   </form>
 
+  
   {% if res["Number of Mentions"]==0 %}
   <p></p>
   <center>
@@ -54,6 +55,8 @@
     
     {% endif %}
 
+  
+  
   <center>
     <div id="query_info">
         <p></p>
@@ -66,6 +69,21 @@
     
   </center>
 
+  <center>
+    <div id="similars">
+      Similar {{res["Type"]}}s:
+      {% for el in res["most_similars"] %}
+      <span class="badge badge-pill badge-secondary">
+        <a href="#" style="color:white" class="similar-btn" data-value="{{el}}"> {{el}}</a>
+        </span>
+        <!-- <a href="#" onclick="$(this).search('form').submit()">{{el}}</a> -->
+      
+      {% endfor %}
+    </div>
+  </center>
+
+
+  <br>
 
 <div id="accordion">
 {% for el in res["Targets"] %}
@@ -123,6 +141,14 @@
 {% endif %}
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+  $('.similar-btn').on("click", function(){
+    var value = $(this).data("value");
+    $("#searchinput").val(value);
+    $("#searchform").submit();
+  });
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

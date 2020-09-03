@@ -29,10 +29,9 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/search/results', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search_request():
     search_term = request.form["input"]
-    print(search_term)
     if search_term.lower().strip() in mappings:
         uid = mappings[search_term.lower().strip()][0]
         old = relations[uid]
@@ -51,6 +50,7 @@ def search_request():
             res["New Query"] = new_query
 
     return render_template('results.html', res=res)
+
 
 def gjc(word, query):
     w3 = Counter([word[i:i+3] for i in range(len(word)-2)])
@@ -80,7 +80,6 @@ def get_similar(query):
     best_val = ""
     for word in words:
         sc = gjc(word, query)
-        print(word, sc)
         if sc>best_score:
             best_score = sc
             best_val = word
