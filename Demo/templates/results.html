@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="https://live.staticflickr.com/65535/50282830072_4afae9c8db_o.png">
+
+    <title>Vapur: COVID-19 Semantic Search</title>
+
+  </head>
+  <body>
+
+    
+
+  <div class="container">
+    <div style="background:transparent !important; margin-top:20px; margin-bottom:30px;">
+        <p>
+          <center>
+            <div onclick="location.href='/';" style="cursor: pointer;"> 
+              
+            <img src="../static/vapur.jpeg" width="20%" >
+            </div>
+          </center>
+        </p>
+    </div>
+
+
+
+  <form action="/search/results" method="post">
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button class="btn btn-primary btn-lg" type="submit" style="display: inline-flex;">
+          <i class="material-icons md-48" style="text-align:center;">search</i>
+        </button>
+      </div>
+      <input type="text" class="form-control input-lg" name="input" placeholder="E.g. Remdesivir" autofocus style="border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;">
+    </div>
+  </form>
+
+  {% if res["Number of Mentions"]==0 %}
+  <p></p>
+  <center>
+  <h3>No Results</h3>
+  </center>
+  {% else %}
+    {% if "New Query" in res%}
+    <div class="alert alert-info" role="alert" style="margin-top: 10px;">
+      <p> No results for {{res["Old Query"]}}. </p>
+     Did you mean <i>{{res["New Query"]}}</i>?
+    </div>
+    
+    {% endif %}
+
+  <center>
+    <div id="query_info">
+        <p></p>
+        <h3><span id="entity"><b>{{ res["Text"] }}</b></span> <img src="{{url_for('static', filename=res["Type"]+'-32.png')}}"></h3>
+        <p id="id">ID: <b>{{res['ID'] if res["ID"] not in ["CUI-less", "None"] else "-"}}</b> </p>
+    </div>
+    <div id="results_info">
+        <p><b>{{ res["Number of Targets"] }} </b> relations from <b>{{ res["Number of Mentions"] }}</b> mentions</p>
+    </div>
+    
+  </center>
+
+
+<div id="accordion">
+{% for el in res["Targets"] %}
+    <div class="card">
+      <div class="card-header" id="heading{{loop.index0}}">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index0}}" aria-expanded="{{true if loop.index0==0 else false}}" aria-controls="collapse{{loop.index0}}" style="width:100%">
+            <span style="float:left;">
+            <b>{{ el['Text'] }}</b> <img src="{{url_for('static', filename=el["Type"]+'-32.png')}}"> {{el['ID'] if el["ID"] not in ["CUI-less", "None"] else ""}}
+          </span>
+            <span style="float:right;">
+              {{ el['Total_Results'] }} results
+            </span>
+      
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapse{{loop.index0}}" class="collapse" aria-labelledby="heading{{loop.index0}}" data-parent="#accordion">
+        <div class="card-body">
+            {% for paper in el["Results"] %}
+            <div id="paper">
+              Paper: <a href="{{paper["url"]}}" class="title">{{paper["title"]}}</a></tr>
+              <ul>
+              {% for sentence in paper["Sentences"] %}
+                
+                <li id="sentence"> 
+                  {% if sentence["target_start"]< sentence["query_start"] %}
+                  {{sentence["Sentence"][:sentence["target_start"]]}}
+                  <mark>{{sentence["Sentence"][sentence["target_start"]:sentence["target_end"]]}}</mark>
+                  {{sentence["Sentence"][sentence["target_end"]:sentence["query_start"]]}}
+                  <span class="text-success">{{sentence["Sentence"][sentence["query_start"]:sentence["query_end"]]}}</span>
+                  {{sentence["Sentence"][sentence["query_end"]:]}}
+                  {% else %}
+                  
+                  {{sentence["Sentence"][:sentence["query_start"]]}}
+                  <span class="text-success">{{sentence["Sentence"][sentence["query_start"]:sentence["query_end"]]}}</span>
+                  {{sentence["Sentence"][sentence["query_end"]:sentence["target_start"]]}}
+                  <mark>{{sentence["Sentence"][sentence["target_start"]:sentence["target_end"]]}}</mark>
+                  {{sentence["Sentence"][sentence["target_end"]:]}}
+                  {% endif %}
+                
+                </li>
+              {% endfor %}
+            </ul>
+              <p id="publish_time" style="text-align:right;font-size: 12px;"> {{paper["publish_time"]}} </p>
+              <hr>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

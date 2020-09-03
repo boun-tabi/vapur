@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="https://live.staticflickr.com/65535/50282830072_4afae9c8db_o.png">
+
+
+  <title>Vapur: COVID-19 Semantic Search</title>
+
+</head>
+<body>
+
+  <div class="container">
+    <div style="background:transparent !important; margin-top:20px; margin-bottom:30px;" >
+          <center>
+
+            <div onclick="location.href='/';" style="cursor: pointer;"> 
+            <img src="../static/vapur.jpeg" width="40%" >
+            </div>
+          </center>
+    </div>
+
+
+
+    <form action="/search/results" method="post">
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button class="btn btn-primary btn-lg" type="submit" style="display: inline-flex;">
+              <i class="material-icons md-48" style="text-align:center;">search</i>
+            </button>
+          </div>
+          <input type="text" class="form-control input-lg" name="input" placeholder="E.g. Remdesivir"  autofocus  style="border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;">
+        </div>
+      </form>
+    
+
+    <br><br>
+
+<blockquote class="blockquote">
+  <p class="mb-0">Enter a chemical or protein/gene and let Vapur find related bio-molecules in <i>150,000 COVID-19 publications</i>!</p>
+</blockquote>
+      
+
+
+<div class="alert alert-info" role="alert">
+    Search by:
+    <ul>
+        <li> Free text format </li>
+        <li> CHEBI </li>
+        <li> Ensembl </li>
+        <li> HGNC </li>
+        <li> IMGT/GENE-DB </li>
+        <li> MESH </li>
+        <li> MIM </li>
+        <li> miRBase </li>
+        <li> BERN </li>
+    </ul>
+  </div>
+
+      </div>
+    </div>
+  </body>
+</html>
