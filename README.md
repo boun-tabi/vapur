@@ -1,4 +1,4 @@
-[![Vapur](https://vapur.herokuapp.com/static/vapur.jpeg)](https://tabilab.cmpe.boun.edu.tr/vapur)
+[![Vapur](https://tabilab.cmpe.boun.edu.tr/vapur/static/vapur.jpeg)](https://tabilab.cmpe.boun.edu.tr/vapur)
 
 Vapur is an online entity-oriented search engine for the COVID-19 anthology. Vapur is empowered with a semantic inverted index that is created through named entity recognition and relation extraction on CORD-19 abstracts.
 
