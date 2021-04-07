@@ -96,7 +96,7 @@ class Bert_Chemprot(nn.Module):
       return x
 
 
-def cord_prediction(pair_path = 'pairs_tagger_2.json', save_dir = "model_30082020_2_classes.pt"):
+def cord_prediction(pair_path = 'pairs_tagger_2.json', save_dir = "model_12092020_2_classes_bert.pt"):
 	with open(pair_path, 'rb') as f:
     	df_base_only = pd.read_json(f)
 
